@@ -1,5 +1,8 @@
 # Spark Cluster with Docker & docker-compose
 
+docker-machine create -d "virtualbox" --virtualbox-ui-type "headless" "docker-vm"
+docker-machine env docker-vm
+eval (docker-machine env docker-vm)
 # General
 
 A simple spark standalone cluster for your testing environment purposses. A *docker-compose up* away from you solution for your spark development environment.
@@ -38,13 +41,13 @@ chmod +x build-images.sh
 
 This will create the following docker images:
 
-* spark-base:2.3.1: A base image based on java:alpine-jdk-8 wich ships scala, python3 and spark 2.3.1
+* spark-base:2.4.0: A base image based on java:alpine-jdk-8 wich ships scala, python3 and spark 2.4.0
 
-* spark-master:2.3.1: A image based on the previously created spark image, used to create a spark master containers.
+* spark-master:2.4.0: A image based on the previously created spark image, used to create a spark master containers.
 
-* spark-worker:2.3.1: A image based on the previously created spark image, used to create spark worker containers.
+* spark-worker:2.4.0: A image based on the previously created spark image, used to create spark worker containers.
 
-* spark-submit:2.3.1: A image based on the previously created spark image, used to create spark submit containers(run, deliver driver and die gracefully).
+* spark-submit:2.4.0: A image based on the previously created spark image, used to create spark submit containers(run, deliver driver and die gracefully).
 
 ## Run the docker-compose
 
@@ -170,7 +173,7 @@ SPARK_APPLICATION_MAIN_CLASS="org.mvb.applications.CrimesApp"
 SPARK_SUBMIT_ARGS="--conf spark.executor.extraJavaOptions='-Dconfig-path=/opt/spark-apps/dev/config.conf'"
 
 #We have to use the same network as the spark cluster(internally the image resolves spark master as spark://spark-master:7077)
-docker run --network docker-spark-cluster_spark-network -v /mnt/spark-apps:/opt/spark-apps --env SPARK_APPLICATION_JAR_LOCATION=$SPARK_APPLICATION_JAR_LOCATION --env SPARK_APPLICATION_MAIN_CLASS=$SPARK_APPLICATION_MAIN_CLASS spark-submit:2.3.1
+docker run --network docker-spark-cluster_spark-network -v /mnt/spark-apps:/opt/spark-apps --env SPARK_APPLICATION_JAR_LOCATION=$SPARK_APPLICATION_JAR_LOCATION --env SPARK_APPLICATION_MAIN_CLASS=$SPARK_APPLICATION_MAIN_CLASS spark-submit:2.4.0
 
 ```
 
@@ -187,7 +190,7 @@ Running Spark using the REST application submission protocol.
 {
   "action" : "CreateSubmissionResponse",
   "message" : "Driver successfully submitted as driver-20180923151753-0000",
-  "serverSparkVersion" : "2.3.1",
+  "serverSparkVersion" : "2.4.0",
   "submissionId" : "driver-20180923151753-0000",
   "success" : true
 }
